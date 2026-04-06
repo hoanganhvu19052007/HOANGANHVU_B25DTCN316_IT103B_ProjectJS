@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý phim - Rikkei Cinema</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/admin.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside class="sidebar">
+        <div class="logo">
+          <i
+            class="fa-solid fa-clapperboard"
+            style="color: #e50914; font-size: 24px"
+          ></i>
+          <span class="logo-text">Rikkei <span>Cinema</span></span>
+        </div>
+
+        <nav class="menu">
+          <div class="menu-item active">
+            <i class="fa-solid fa-film"></i>
+            <span>Quản lý phim</span>
+          </div>
+          <div class="menu-item">
+            <i class="fa-solid fa-ticket"></i>
+            <span>Quản lý vé</span>
+          </div>
+        </nav>
+
+        <div class="user-profile">
+          <img
+            src="../assets/icon/Image+Border.svg"
+            alt="Avatar"
+            class="avatar"
+          />
+          <div class="user-info">
+            <p class="user-name">Admin Quản lý</p>
+            <p class="user-email">LQTuan@rikkei.edu.vn</p>
+          </div>
+          <i class="fa-solid fa-right-from-bracket logout-icon btn-out"></i>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="header-main">
+          <div class="title-section">
+            <h1>Quản lý danh sách phim</h1>
+            <p>Xem, chỉnh sửa và quản lý tất cả phim hiện có trên hệ thống.</p>
+          </div>
+          <div class="action-section">
+            <!-- Search box -->
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input
+                type="text"
+                placeholder="Tìm tên phim..."
+                id="search-input"
+                autocomplete="off"
+              />
+              <!-- Nút xóa được thêm bằng JS -->
+            </div>
+            <button class="btn-add" id="open-modal-btn">+ Thêm phim mới</button>
+          </div>
+        </header>
+
+        <!-- Filter buttons với data-filter để JS nhận diện -->
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">
+            <span class="dot"></span>
+            Tất cả (0)
+          </button>
+          <button class="filter-btn" data-filter="showing">
+            <span class="dot"></span>
+            Đang chiếu (0)
+          </button>
+          <button class="filter-btn" data-filter="upcoming">
+            <span class="dot"></span>
+            Sắp chiếu (0)
+          </button>
+          <button class="filter-btn" data-filter="ended">
+            <span class="dot"></span>
+            Đã chiếu (0)
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ẢNH BÌA</th>
+                <th>TÊN PHIM</th>
+                <th>THỂ LOẠI</th>
+                <th>THỜI LƯỢNG</th>
+                <th>NGÀY KHỞI CHIẾU</th>
+                <th>TRẠNG THÁI</th>
+                <th>THAO TÁC</th>
+              </tr>
+            </thead>
+            <tbody id="movie-table-body"></tbody>
+          </table>
+        </div>
+
+        <footer class="pagination-footer">
+          <p>Hiển thị 1-5 trên 0 phim</p>
+          <div class="pagination">
+            <button><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <span>...</span>
+            <button>5</button>
+            <button><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <!-- Modal thêm/sửa phim -->
+    <div class="modal-overlay" id="movie-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Thêm Phim Mới</h2>
+          <button class="close-modal" id="close-modal">&times;</button>
+        </div>
+
+        <form id="movie-form">
+          <div class="form-group">
+            <label>Tên phim <span class="required">*</span></label>
+            <input type="text" id="movie-name" placeholder="Nhập tên phim" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Thể loại <span class="required">*</span></label>
+              <select id="movie-genre">
+                <option value="" disabled selected>Chọn thể loại</option>
+                <option value="Hành động">Hành động</option>
+                <option value="Viễn tưởng">Viễn tưởng</option>
+                <option value="Hoạt hình">Hoạt hình</option>
+                <option value="Kinh dị">Kinh dị</option>
+                <option value="Tình cảm">Tình cảm</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Thời lượng (phút) <span class="required">*</span></label>
+              <input type="text" id="movie-duration" placeholder="Ví dụ: 120" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Ngày khởi chiếu <span class="required">*</span></label>
+              <input type="date" id="movie-date" />
+            </div>
+            <div class="form-group">
+              <label>Trạng thái</label>
+              <select id="movie-status">
+                <option value="1">Đang chiếu</option>
+                <option value="2">Sắp chiếu</option>
+                <option value="0">Đã chiếu</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Giá vé <span class="required">*</span></label>
+            <input
+              type="number"
+              id="movie-price"
+              placeholder="Nhập giá vé ...."
+            />
+          </div>
+
+          <div class="form-group">
+            <label>URL Ảnh bìa</label>
+            <div class="input-group">
+              <div class="url-input-wrapper">
+                <i class="fa-solid fa-link"></i>
+                <input
+                  type="text"
+                  id="movie-image"
+                  placeholder="https://example.com/poster.jpg"
+                />
+              </div>
+              <button type="button" class="btn-upload">Tải Ảnh</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Mô tả ngắn</label>
+            <textarea
+              id="movie-desc"
+              rows="3"
+              placeholder="Nhập tóm tắt nội dung phim..."
+            ></textarea>
+          </div>
+
+          <div class="modal-footer-btns">
+            <button type="button" class="btn-cancel" id="btn-cancel">
+              Hủy
+            </button>
+            <button type="submit" class="btn-submit-red">+ Thêm mới</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal đăng xuất -->
+    <div class="modal-overlay" id="logout-modal">
+      <div class="modal-content logout-box">
+        <div class="modal-header">
+          <h2>Xác nhận đăng xuất</h2>
+          <button class="close-modal" id="close-logout">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Bạn có chắc chắn muốn đăng xuất khỏi hệ thống
+            <strong>Rikkei Cinema</strong> không?
+          </p>
+        </div>
+        <div class="modal-footer-btns">
+          <button class="btn-cancel" id="btn-stay">Ở lại</button>
+          <button class="btn-submit-red" id="btn-confirm-logout">
+            Đăng xuất
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal xóa phim -->
+    <div id="delete-confirm-modal" class="modal">
+      <div class="modal-content-delete">
+        <div class="modal-body-delete">
+          <div class="icon-warning-delete">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <h2>Xác nhận xóa phim</h2>
+          <p>
+            Bạn có chắc chắn muốn xóa phim
+            <strong id="delete-movie-name"></strong> không? Hành động này không
+            thể hoàn tác.
+          </p>
+        </div>
+        <div class="modal-footer-delete">
+          <button id="btn-cancel-delete" class="btn-cancel">Hủy</button>
+          <button id="btn-confirm-delete" class="btn-confirm">Xóa ngay</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast-container"></div>
+    <script src="../js/admin.js"></script>
+  </body>
+</html>
