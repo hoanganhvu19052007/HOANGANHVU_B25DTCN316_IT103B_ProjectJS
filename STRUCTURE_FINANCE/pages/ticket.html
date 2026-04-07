@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý vé - Rikkei Cinema</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="../css/ticket.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="logo">
+          <i
+            class="fa-solid fa-clapperboard"
+            style="color: #e50914; font-size: 24px"
+          ></i>
+          <span class="logo-text">Rikkei <span>Cinema</span></span>
+        </div>
+        <nav class="menu">
+          <a class="menu-item" href="admin.html">
+            <i class="fa-solid fa-film"></i>
+            <span>Quản lý phim</span>
+          </a>
+          <a class="menu-item active" href="ticket.html">
+            <i class="fa-solid fa-ticket"></i>
+            <span>Quản lý vé</span>
+          </a>
+        </nav>
+        <div class="user-profile">
+          <img
+            src="../assets/icon/Image+Border.svg"
+            alt="Avatar"
+            class="avatar"
+          />
+          <div class="user-info">
+            <p class="user-name">Admin Quản lý</p>
+            <p class="user-email"></p>
+          </div>
+          <i class="fa-solid fa-right-from-bracket logout-icon btn-out"></i>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <header class="header-main">
+          <div class="header-left">
+            <h1>Quản lý vé đã đặt</h1>
+            <p>Xem, chỉnh sửa và quản lý tất cả vé xem phim đã đặt.</p>
+          </div>
+          <div class="header-right">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input
+                type="text"
+                placeholder="Tìm kiếm mã vé, khách hàng..."
+                id="search-ticket-input"
+              />
+            </div>
+            <div class="header-icons">
+              <i class="fa-regular fa-bell"></i>
+              <div class="notif-dot"></div>
+            </div>
+          </div>
+        </header>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div
+              class="stat-icon"
+              style="background: rgba(229, 9, 20, 0.1); color: #e50914"
+            >
+              <i class="fa-solid fa-ticket"></i>
+            </div>
+            <div class="stat-info">
+              <p>Tổng vé hôm nay</p>
+              <h3 id="total-count">0</h3>
+              <span class="trend up"
+                ><i class="fa-solid fa-arrow-up"></i> +12% so với hôm qua</span
+              >
+            </div>
+          </div>
+          <div class="stat-card">
+            <div
+              class="stat-icon"
+              style="background: rgba(0, 208, 132, 0.1); color: #00d084"
+            >
+              <i class="fa-solid fa-money-bill-trend-up"></i>
+            </div>
+            <div class="stat-info">
+              <p>Doanh thu ngày</p>
+              <h3 id="revenue-count">0đ</h3>
+              <span class="trend up"
+                ><i class="fa-solid fa-arrow-up"></i> +5% mục tiêu</span
+              >
+            </div>
+          </div>
+          <div class="stat-card">
+            <div
+              class="stat-icon"
+              style="background: rgba(255, 152, 0, 0.1); color: #ff9800"
+            >
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div class="stat-info">
+              <p>Vé chờ xác nhận</p>
+              <h3 id="pending-count">0</h3>
+              <span class="trend warn">⚠️ Cần xử lý ngay</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABLE ACTIONS -->
+        <div class="table-actions">
+          <button class="btn-add-ticket" id="open-ticket-modal">
+            <i class="fa-solid fa-plus"></i> Đặt vé mới
+          </button>
+          <div class="filter-group">
+            <button class="btn-filter">
+              <i class="fa-solid fa-filter"></i> Lọc
+            </button>
+            <button class="btn-filter">
+              <i class="fa-solid fa-download"></i> Xuất file
+            </button>
+          </div>
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>MÃ VÉ</th>
+                <th>KHÁCH HÀNG</th>
+                <th>PHIM</th>
+                <th>SUẤT CHIẾU</th>
+                <th>GHẾ</th>
+                <th>TỔNG TIỀN</th>
+                <th>TRẠNG THÁI</th>
+                <th style="text-align: center">THAO TÁC</th>
+              </tr>
+            </thead>
+            <tbody id="ticket-table-body"></tbody>
+          </table>
+          <div class="pagination-wrapper">
+            <div id="ticket-pagination-info"></div>
+            <div id="ticket-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- MODAL THÊM / SỬA VÉ -->
+    <div class="modal-overlay" id="ticket-modal">
+      <div class="modal-content movie-booking-modal">
+        <div class="modal-header">
+          <h2 id="ticket-modal-title">Đặt Vé Mới</h2>
+          <button type="button" id="close-ticket-modal" class="btn-close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form id="ticket-form">
+          <!-- Khách hàng + SĐT -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tên khách hàng</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-user input-icon"></i>
+                <input
+                  type="text"
+                  id="t-customer"
+                  placeholder="Nhập tên khách hàng..."
+                  class="form-input"
+                />
+              </div>
+              <span id="errCustomer" class="error-text"></span>
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-phone input-icon"></i>
+                <input
+                  type="text"
+                  id="t-phone"
+                  placeholder="VD: 0987654321"
+                  class="form-input"
+                />
+              </div>
+              <span id="errPhone" class="error-text"></span>
+            </div>
+          </div>
+
+          <!-- Phim + Giờ chiếu -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tên phim</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-film input-icon"></i>
+                <input
+                  type="text"
+                  id="t-movie"
+                  placeholder="Nhập tên phim..."
+                  class="form-input"
+                />
+              </div>
+              <span id="errMovie" class="error-text"></span>
+            </div>
+            <div class="form-group">
+              <label>Giờ chiếu</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-clock input-icon"></i>
+                <input type="time" id="t-time" class="form-input" />
+              </div>
+              <span id="errTime" class="error-text"></span>
+            </div>
+          </div>
+
+          <!-- Ngày chiếu + Ghế -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>Ngày chiếu</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-calendar input-icon"></i>
+                <input type="date" id="t-date" class="form-input" />
+              </div>
+              <span id="errTDate" class="error-text"></span>
+            </div>
+            <div class="form-group">
+              <label>Ghế (phân cách bằng dấu phẩy)</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-couch input-icon"></i>
+                <input
+                  type="text"
+                  id="t-seat"
+                  placeholder="VD: F5, F6"
+                  class="form-input"
+                />
+              </div>
+              <span id="errSeat" class="error-text"></span>
+            </div>
+          </div>
+
+          <!-- Tổng tiền + Trạng thái -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tổng tiền (VNĐ)</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-money-bill input-icon"></i>
+                <input
+                  type="number"
+                  id="t-price"
+                  placeholder="VD: 180000"
+                  class="form-input"
+                  min="0"
+                />
+              </div>
+              <span id="errTPrice" class="error-text"></span>
+            </div>
+            <div class="form-group">
+              <label>Trạng thái thanh toán</label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-circle-check input-icon"></i>
+                <select id="t-status" class="form-input">
+                  <option value="success">Đã thanh toán</option>
+                  <option value="pending">Chờ xử lý</option>
+                </select>
+                <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phương thức thanh toán -->
+          <div class="form-group full-width">
+            <label>Phương thức thanh toán</label>
+            <div class="input-with-icon">
+              <i class="fa-solid fa-credit-card input-icon"></i>
+              <select id="t-payment-method" class="form-input">
+                <option value="0">Tiền mặt</option>
+                <option value="1">Chuyển khoản</option>
+                <option value="2">Thẻ tín dụng</option>
+              </select>
+              <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="btn-ticket-cancel"
+              class="btn btn-secondary"
+            >
+              Hủy
+            </button>
+            <button
+              type="submit"
+              id="btn-ticket-submit"
+              class="btn btn-primary"
+            >
+              <i class="fa-solid fa-check"></i> Xác nhận đặt vé
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL XÁC NHẬN XÓA -->
+    <div class="modal-overlay" id="delete-confirm-modal">
+      <div class="modal-content delete-box">
+        <div class="modal-header">
+          <h2>Xác nhận hủy vé</h2>
+          <button class="btn-close" id="btn-cancel-delete">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="delete-icon-wrap">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <p>
+            Bạn có chắc chắn muốn hủy vé
+            <strong id="delete-ticket-code"></strong> không?
+          </p>
+          <p class="delete-sub">Hành động này không thể hoàn tác.</p>
+        </div>
+        <div class="modal-footer-btns">
+          <button class="btn btn-secondary" id="btn-cancel-delete2">
+            Giữ lại
+          </button>
+          <button class="btn btn-danger" id="btn-confirm-delete">Hủy vé</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL ĐĂNG XUẤT -->
+    <div class="modal-overlay" id="logout-modal">
+      <div class="modal-content logout-box">
+        <div class="modal-header">
+          <h2>Xác nhận đăng xuất</h2>
+          <button class="btn-close" id="close-logout">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Bạn có chắc chắn muốn đăng xuất khỏi hệ thống
+            <strong>Rikkei Cinema</strong> không?
+          </p>
+        </div>
+        <div class="modal-footer-btns">
+          <button class="btn btn-secondary" id="btn-stay">Ở lại</button>
+          <button class="btn btn-danger" id="btn-confirm-logout">
+            Đăng xuất
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/ticket.js"></script>
+  </body>
+</html>

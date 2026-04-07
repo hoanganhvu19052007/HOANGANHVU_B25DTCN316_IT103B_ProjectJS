@@ -1,0 +1,445 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0f1219;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-padding {
+  padding: 60px 0;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #e50914;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #b9090f;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+  background-color: #374151;
+  color: #e50914;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+.btn-block:hover {
+  background-color: #e50914;
+  color: white;
+}
+
+/* Header */
+.navbar {
+  background-color: #0f1219;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 15px 0;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.logo span {
+  color: red;
+}
+
+.nav-links a {
+  margin: 0 15px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  color: white;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 700px;
+  background-image: url("../assets/images/Background_index.svg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin-left: 140px;
+}
+
+.badge {
+  background-color: rgba(229, 9, 20, 0.2);
+  color: #e50914;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  line-height: 1.1;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  color: #cbd5e1;
+  margin-bottom: 25px;
+  font-size: 15px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+/* Phim Đang Chiếu */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.view-all {
+  color: #e50914;
+  font-size: 14px;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.movie-card {
+  background-color: #1a1e27;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.movie-card img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.movie-info {
+  padding: 15px;
+}
+
+.movie-info h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-info p {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* Ưu Đãi Đặc Biệt */
+.section-title-center {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-title-center p {
+  color: #9ca3af;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.offer-card {
+  background-color: #1a1e27;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.offer-card .icon {
+  font-size: 24px;
+  color: #e50914;
+  margin-bottom: 15px;
+}
+
+.offer-card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.offer-card p {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+.offer-card a {
+  color: #e50914;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Tại sao chọn RikkeiEdu */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.feature-card {
+  background-color: #1a1e27;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.feature-card .icon-red {
+  font-size: 20px;
+  color: #e50914;
+  margin-bottom: 15px;
+}
+
+.feature-card h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* Newsletter */
+.newsletter-section {
+  padding-bottom: 60px;
+}
+
+.newsletter-box {
+  background-color: #1a1e27;
+  padding: 20px 30px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nl-text h3 {
+  font-size: 18px;
+}
+
+.nl-text p {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.nl-form {
+  display: flex;
+  gap: 10px;
+}
+
+.nl-form input {
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: none;
+  background-color: #0f1219;
+  color: white;
+  width: 250px;
+  outline: none;
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 30px 0 20px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.footer-links a {
+  margin-right: 20px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+.footer-socials a {
+  font-size: 18px;
+  margin-left: 15px;
+  color: #9ca3af;
+}
+
+.footer-socials a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.modal-content {
+  background: black;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: red;
+}
+
+.modal-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .offer-grid,
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .movie-grid,
+  .offer-grid,
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .hero-content {
+    margin-left: 20px;
+  }
+
+  .newsletter-box {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .nl-form {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nl-form input {
+    width: 100%;
+  }
+}
